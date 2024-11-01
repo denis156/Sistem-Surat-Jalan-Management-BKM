@@ -207,7 +207,7 @@
                     <div
                         class="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
                         <div class="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
-                            <model-viewer src="{{ asset('images/models/Report-3D.glb') }}" alt="3D Model of Container"
+                            <model-viewer src="{{ asset('images/models/container-loading-3D.glb') }}" alt="3D Model of Container Loading"
                                 auto-rotate camera-controls background-color="#ffffff"
                                 style="width: 100%; height: 400px;">
                             </model-viewer>
@@ -242,7 +242,7 @@
                                     <div class="flex-shrink-0">
                                         <div
                                             class="h-12 w-12 bg-green-100 rounded-md flex items-center justify-center">
-                                            <img src="{{ asset('images/Gif/role/admin-icon.gif') }}" alt="Admin Icon"
+                                            <img src="{{ asset('images/gif/role/admin-icon.gif') }}" alt="Admin Icon"
                                                 class="h-8 w-8">
                                         </div>
                                     </div>
@@ -269,7 +269,7 @@
                                     <div class="flex-shrink-0">
                                         <div
                                             class="h-12 w-12 bg-green-100 rounded-md flex items-center justify-center">
-                                            <img src="{{ asset('images/Gif/role/client-icon.gif') }}"
+                                            <img src="{{ asset('images/gif/role/client-icon.gif') }}"
                                                 alt="Client Icon" class="h-8 w-8">
                                         </div>
                                     </div>
@@ -295,7 +295,7 @@
                                     <div class="flex-shrink-0">
                                         <div
                                             class="h-12 w-12 bg-yellow-100 rounded-md flex items-center justify-center">
-                                            <img src="{{ asset('images/Gif/role/field-icon.gif') }}"
+                                            <img src="{{ asset('images/gif/role/field-icon.gif') }}"
                                                 alt="Field Officer Icon" class="h-8 w-8">
                                         </div>
                                     </div>
@@ -322,7 +322,7 @@
                                     <div class="flex-shrink-0">
                                         <div
                                             class="h-12 w-12 bg-purple-100 rounded-md flex items-center justify-center">
-                                            <img src="{{ asset('images/Gif/role/room-icon.gif') }}"
+                                            <img src="{{ asset('images/gif/role/room-icon.gif') }}"
                                                 alt="Room Officer Icon" class="h-8 w-8">
                                         </div>
                                     </div>
@@ -347,7 +347,7 @@
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0">
                                         <div class="h-12 w-12 bg-red-100 rounded-md flex items-center justify-center">
-                                            <img src="{{ asset('images/Gif/role/warehouse-icon.gif') }}"
+                                            <img src="{{ asset('images/gif/role/warehouse-icon.gif') }}"
                                                 alt="Warehouse Officer Icon" class="h-8 w-8">
                                         </div>
                                     </div>
@@ -372,7 +372,7 @@
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0">
                                         <div class="h-12 w-12 bg-blue-100 rounded-md flex items-center justify-center">
-                                            <img src="{{ asset('images/Gif/role/developer-icon.gif') }}"
+                                            <img src="{{ asset('images/gif/role/developer-icon.gif') }}"
                                                 alt="Developer Icon" class="h-8 w-8">
                                         </div>
                                     </div>
@@ -412,7 +412,7 @@
                     <div class="relative">
                         <div class="card-hover bg-white rounded-lg shadow-sm p-6 text-center">
                             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                                <img src="{{ asset('images/Gif/status/status-icon-1.gif') }}" alt="Dibuat Icon"
+                                <img src="{{ asset('images/gif/status/status-icon-1.gif') }}" alt="Dibuat Icon"
                                     class="h-10 w-10">
                             </div>
                             <h3 class="mt-4 text-lg font-medium text-gray-900">1. Dibuat</h3>
@@ -425,7 +425,7 @@
                     <div class="relative">
                         <div class="card-hover bg-white rounded-lg shadow-sm p-6 text-center">
                             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                                <img src="{{ asset('images/Gif/status/status-icon-2.gif') }}" alt="Dikirim Icon"
+                                <img src="{{ asset('images/gif/status/status-icon-2.gif') }}" alt="Dikirim Icon"
                                     class="h-10 w-10">
                             </div>
                             <h3 class="mt-4 text-lg font-medium text-gray-900">2. Dikirim</h3>
@@ -439,7 +439,7 @@
                     <div class="relative">
                         <div class="card-hover bg-white rounded-lg shadow-sm p-6 text-center">
                             <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto">
-                                <img src="{{ asset('images/Gif/status/status-icon-3.gif') }}" alt="Sampai Icon"
+                                <img src="{{ asset('images/gif/status/status-icon-3.gif') }}" alt="Sampai Icon"
                                     class="h-10 w-10">
                             </div>
                             <h3 class="mt-4 text-lg font-medium text-gray-900">3. Sampai</h3>
@@ -454,7 +454,7 @@
                     <div class="relative">
                         <div class="card-hover bg-white rounded-lg shadow-sm p-6 text-center">
                             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                                <img src="{{ asset('images/Gif/status/status-icon-4.gif') }}" alt="Selesai Icon"
+                                <img src="{{ asset('images/gif/status/status-icon-4.gif') }}" alt="Selesai Icon"
                                     class="h-10 w-10">
                             </div>
                             <h3 class="mt-4 text-lg font-medium text-gray-900">4. Selesai</h3>
@@ -481,7 +481,7 @@
                     <!-- Testimonial 1 -->
                     <div class="card-hover bg-white rounded-xl shadow-sm p-8">
                         <div class="flex items-center mb-6">
-                            <img src="{{ asset('images/Gif/testimonial/testimonial-image-1.gif') }}"
+                            <img src="{{ asset('images/gif/testimonial/testimonial-image-1.gif') }}"
                                 alt="Testimoni Admin" class="h-12 w-12 rounded-full">
                             <div class="ml-4">
                                 <h4 class="text-lg font-medium text-gray-900">Admin PT Barraka</h4>
@@ -497,7 +497,7 @@
                     <!-- Testimonial 2 -->
                     <div class="card-hover bg-white rounded-xl shadow-sm p-8">
                         <div class="flex items-center mb-6">
-                            <img src="{{ asset('images/Gif/testimonial/testimonial-image-2.gif') }}"
+                            <img src="{{ asset('images/gif/testimonial/testimonial-image-2.gif') }}"
                                 alt="Testimoni Petugas" class="h-12 w-12 rounded-full">
                             <div class="ml-4">
                                 <h4 class="text-lg font-medium text-gray-900">Petugas Lapangan</h4>
@@ -513,7 +513,7 @@
                     <!-- Testimonial 3 -->
                     <div class="card-hover bg-white rounded-xl shadow-sm p-8">
                         <div class="flex items-center mb-6">
-                            <img src="{{ asset('images/Gif/testimonial/testimonial-image-3.gif') }}"
+                            <img src="{{ asset('images/gif/testimonial/testimonial-image-3.gif') }}"
                                 alt="Testimoni Gudang" class="h-12 w-12 rounded-full">
                             <div class="ml-4">
                                 <h4 class="text-lg font-medium text-gray-900">Petugas Gudang</h4>
