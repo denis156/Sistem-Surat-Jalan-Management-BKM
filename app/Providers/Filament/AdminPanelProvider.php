@@ -27,8 +27,20 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->registration()
+            ->passwordReset()
+            ->emailVerification()
+            ->favicon(asset('images/logo.png'))
+            ->brandLogo(asset('images/sidebar.png'))
+            ->brandLogoHeight('49px')
+            ->font('Comic Sans MS')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#005028',
+                'danger' => Color::Rose,
+                'secondary' => Color::Gray,
+                'info' => Color::Blue,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
