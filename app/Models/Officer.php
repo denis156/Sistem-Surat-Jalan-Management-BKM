@@ -19,6 +19,18 @@ class Officer extends Model
         'updated_by'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Event untuk mengisi employee_id saat Officer dibuat
+        static::creating(function ($officer) {
+            if (empty($officer->employee_id)) {
+                $officer->employee_id = 'BKM-' . str_pad(Officer::max('id') + 1, 5, '0', STR_PAD_LEFT);
+            }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
