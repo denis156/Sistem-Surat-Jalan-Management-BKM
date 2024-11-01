@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +20,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar_url',
+        'address',
+        'role',
+        'phone_number'
     ];
 
     /**
@@ -42,4 +45,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Relationship with the Client model
+     */
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
+
+    /**
+     * Relationship with the Officer model
+     */
+    public function officers()
+    {
+        return $this->hasMany(Officer::class);
+    }
 }
