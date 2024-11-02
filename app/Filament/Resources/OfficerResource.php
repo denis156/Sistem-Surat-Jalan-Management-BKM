@@ -9,6 +9,7 @@ use App\Models\Officer;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\ActionSize;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\OfficerResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +24,7 @@ class OfficerResource extends Resource
 
     protected static ?string $modelLabel = 'Petugas';
 
-    protected static ?string $slug = 'petugas';
+    protected static ?string $slug = 'Petugas';
 
     protected static ?string $pluralModelLabel = 'Petugas';
 
@@ -259,22 +260,48 @@ class OfficerResource extends Resource
                     ->placeholder('Semua Status'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Edit'),
-                Tables\Actions\DeleteAction::make()
-                    ->label('Hapus'),
-                Tables\Actions\RestoreAction::make()
-                    ->label('Pulihkan'),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()
+                        ->label('Edit')
+                        ->icon('heroicon-o-pencil')
+                        ->color('success'),
+                    Tables\Actions\DeleteAction::make()
+                        ->label('Hapus')
+                        ->icon('heroicon-o-trash')
+                        ->color('danger'),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->label('Hapus Permanen')
+                        ->icon('heroicon-o-trash')
+                        ->color('danger'),
+                    Tables\Actions\RestoreAction::make()
+                        ->label('Pulihkan')
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('warning'),
+                ])
+                    ->button()
+                    ->color('primary')
+                    ->label('Tindakan')
+                    ->size(ActionSize::Small),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->label('Hapus yang dipilih'),
+                        ->label('Hapus yang dipilih')
+                        ->icon('heroicon-o-trash')
+                        ->color('danger'),
                     Tables\Actions\ForceDeleteBulkAction::make()
-                        ->label('Hapus permanen'),
+                        ->label('Hapus yang dipilih permanen')
+                        ->color('danger')
+                        ->icon('heroicon-o-trash'),
                     Tables\Actions\RestoreBulkAction::make()
-                        ->label('Pulihkan yang dipilih'),
-                ]),
+                        ->label('Pulihkan yang dipilih')
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('warning'),
+                ])
+                    ->button()
+                    ->color('primary')
+                    ->label('Tindakan')
+                    ->size(ActionSize::Medium),
             ]);
     }
 
