@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\DB;
+use Filament\Support\Enums\ActionSize;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -219,16 +220,48 @@ class UserResource extends Resource
                     ->label('Filter Peran'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()->label('Hapus'),
-                Tables\Actions\RestoreAction::make()->label('Pulihkan')->visible(fn($record) => $record->trashed()),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()
+                        ->label('Edit')
+                        ->icon('heroicon-o-pencil')
+                        ->color('success'),
+                    Tables\Actions\DeleteAction::make()
+                        ->label('Hapus')
+                        ->icon('heroicon-o-trash')
+                        ->color('danger'),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->label('Hapus Permanen')
+                        ->icon('heroicon-o-trash')
+                        ->color('danger'),
+                    Tables\Actions\RestoreAction::make()
+                        ->label('Pulihkan')
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('warning'),
+                ])
+                    ->button()
+                    ->color('primary')
+                    ->label('Tindakan')
+                    ->size(ActionSize::Small),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->label('Hapus'),
-                    Tables\Actions\ForceDeleteBulkAction::make()->label('Hapus Permanen'),
-                    Tables\Actions\RestoreBulkAction::make()->label('Pulihkan'),
-                ]),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Hapus yang dipilih')
+                        ->icon('heroicon-o-trash')
+                        ->color('danger'),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->label('Hapus yang dipilih permanen')
+                        ->color('danger')
+                        ->icon('heroicon-o-trash'),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->label('Pulihkan yang dipilih')
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('warning'),
+                ])
+                    ->button()
+                    ->color('primary')
+                    ->label('Tindakan')
+                    ->size(ActionSize::Medium),
             ]);
     }
 
