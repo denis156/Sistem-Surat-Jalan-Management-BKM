@@ -25,8 +25,21 @@ class FieldPanelProvider extends PanelProvider
         return $panel
             ->id('field')
             ->path('field')
+            ->login()
+            ->registration()
+            ->passwordReset()
+            ->emailVerification()
+            ->favicon(asset('images/logo.png'))
+            ->brandLogo(asset('images/sidebar.png'))
+            ->brandLogoHeight('49px')
+            ->font('Comic Sans MS')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#005028',
+                'danger' => Color::Rose,
+                'secondary' => Color::Gray,
+                'info' => Color::Blue,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
             ])
             ->discoverResources(in: app_path('Filament/Field/Resources'), for: 'App\\Filament\\Field\\Resources')
             ->discoverPages(in: app_path('Filament/Field/Pages'), for: 'App\\Filament\\Field\\Pages')

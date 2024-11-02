@@ -25,8 +25,21 @@ class ClientPanelProvider extends PanelProvider
         return $panel
             ->id('client')
             ->path('client')
+            ->login()
+            ->registration()
+            ->passwordReset()
+            ->emailVerification()
+            ->favicon(asset('images/logo.png'))
+            ->brandLogo(asset('images/sidebar.png'))
+            ->brandLogoHeight('49px')
+            ->font('Comic Sans MS')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#005028',
+                'danger' => Color::Rose,
+                'secondary' => Color::Gray,
+                'info' => Color::Blue,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
             ])
             ->discoverResources(in: app_path('Filament/Client/Resources'), for: 'App\\Filament\\Client\\Resources')
             ->discoverPages(in: app_path('Filament/Client/Pages'), for: 'App\\Filament\\Client\\Pages')
