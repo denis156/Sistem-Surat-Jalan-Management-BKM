@@ -1,12 +1,13 @@
 <x-filament-panels::page>
     <div x-data="{ printDeliveryNote() { window.print(); } }" x-on:print-delivery-note.window="printDeliveryNote">
-        <div id="printable-area" class="bg-white dark:bg-gray-900 text-black dark:text-white">
         <x-filament::card class="p-4 bg-white dark:bg-gray-900 text-black dark:text-white">
+            <div id="printable-area" class="bg-white dark:bg-gray-900 text-black dark:text-white">
                 <!-- Header -->
                 <header class="flex justify-between items-center mb-4 relative">
                     <div class="flex items-center space-x-4">
                         <div class="company-logo">
-                            <img src="{{ asset('images/logo.png') }}" alt="Logo Perusahaan" class="w-16 h-16">
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo Perusahaan"
+                                style="width: 48px; height: 48px;">
                         </div>
                         <div class="company-info text-xs dark:text-white">
                             <h2 class="text-base font-bold">PT. BARAKKA KARYA MANDIRI</h2>
@@ -27,11 +28,15 @@
                             <div class="flex flex-col space-y-4">
                                 <div class="border border-black dark:border-gray-300 p-2 h-[50px] flex justify-between items-center custom-header">
                                     <p class="font-bold">Kepada:</p>
-                                    <p>{{ $record->client->company_name ?? 'Tidak ada data' }}</p>
+                                    <p>
+                                        {{ $record->client->user->name ?? 'Tidak ada nama' }} -
+                                        {{ $record->client->company_name ?? 'Tidak ada nama perusahaan' }}
+                                    </p>
                                 </div>
-                                <div class="border border-black dark:border-gray-300 p-2 h-[50px] flex justify-between items-center custom-header">
+                                <div
+                                    class="border border-black dark:border-gray-300 p-2 h-[50px] flex justify-between items-center custom-header">
                                     <p class="font-bold">Gudang Tujuan:</p>
-                                    <p>{{ $record->ship_to ?? 'Tidak ada data' }}</p>
+                                    <p>{{ $record->ship_to ?? 'Belum ada tujuan' }}</p>
                                 </div>
                             </div>
                         </td>
@@ -39,23 +44,32 @@
                         <td class="w-1/2 p-4 align-top bg-white dark:bg-gray-800 text-black dark:text-white">
                             <div class="flex flex-col space-y-4">
                                 <div class="flex space-x-4">
-                                    <div class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
+                                    <div
+                                        class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
                                         <p class="font-bold w-1/3 text-right mr-2">Tanggal Kirim:</p>
-                                        <p class="w-2/3 text-left">{{ $record->tanggal_pengiriman ? $record->tanggal_pengiriman->format('d M Y') : 'Tidak ada data' }}</p>
+                                        <p class="w-2/3 text-left">
+                                            {{ $record->tanggal_pengiriman ? $record->tanggal_pengiriman->format('d M Y') : 'Belum ada tanggal kirim' }}
+                                        </p>
                                     </div>
-                                    <div class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
+                                    <div
+                                        class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
                                         <p class="font-bold w-1/3 text-right mr-2">No. Surat:</p>
-                                        <p class="w-2/3 text-left">{{ $record->nomor_surat ?? 'Tidak ada data' }}</p>
+                                        <p class="w-2/3 text-left">{{ $record->nomor_surat ?? 'Belum ada nomor surat' }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="flex space-x-4">
-                                    <div class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
+                                    <div
+                                        class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
                                         <p class="font-bold w-1/3 text-right mr-2">No. Plat:</p>
-                                        <p class="w-2/3 text-left">{{ $record->nomor_plat ?? 'Tidak ada data' }}</p>
+                                        <p class="w-2/3 text-left">{{ $record->nomor_plat ?? 'Belum ada nomor plat' }}
+                                        </p>
                                     </div>
-                                    <div class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
+                                    <div
+                                        class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
                                         <p class="font-bold w-1/3 text-right mr-2">Supir:</p>
-                                        <p class="w-2/3 text-left">{{ $record->nama_driver ?? 'Tidak ada data' }}</p>
+                                        <p class="w-2/3 text-left">{{ $record->nama_driver ?? 'Belum ada nama supir' }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -64,22 +78,31 @@
                 </table>
 
                 <!-- Tabel Item -->
-                <table class="w-full border-collapse border border-black dark:border-gray-300 text-xs mb-6 custom-table dark:text-white">
+                <table
+                    class="w-full border-collapse border border-black dark:border-gray-300 text-xs mb-6 custom-table dark:text-white">
                     <thead>
                         <tr>
-                            <th class="border border-black dark:border-gray-300 p-2 w-1/12 bg-white dark:bg-gray-800">NO.</th>
-                            <th class="border border-black dark:border-gray-300 p-2 w-5/12 bg-white dark:bg-gray-800">DESKRIPSI BARANG</th>
-                            <th class="border border-black dark:border-gray-300 p-2 w-2/12 bg-white dark:bg-gray-800">QTY</th>
-                            <th class="border border-black dark:border-gray-300 p-2 w-3/12 bg-white dark:bg-gray-800">Kondisi</th>
+                            <th class="border border-black dark:border-gray-300 p-2 w-1/12 bg-white dark:bg-gray-800">
+                                NO.</th>
+                            <th class="border border-black dark:border-gray-300 p-2 w-5/12 bg-white dark:bg-gray-800">
+                                DESKRIPSI BARANG</th>
+                            <th class="border border-black dark:border-gray-300 p-2 w-2/12 bg-white dark:bg-gray-800">
+                                QTY</th>
+                            <th class="border border-black dark:border-gray-300 p-2 w-3/12 bg-white dark:bg-gray-800">
+                                Kondisi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-gray-800">
                         @foreach ($record->items as $index => $item)
                             <tr>
-                                <td class="border border-black dark:border-gray-300 p-2 text-center">{{ $index + 1 }}</td>
-                                <td class="border border-black dark:border-gray-300 p-2">{{ $item->name_item ?? 'Tidak ada data' }}</td>
-                                <td class="border border-black dark:border-gray-300 p-2 text-center">{{ $item->quantity ?? 'Tidak ada data' }}</td>
-                                <td class="border border-black dark:border-gray-300 p-2">{{ $item->description ?? 'Tidak ada data' }}</td>
+                                <td class="border border-black dark:border-gray-300 p-2 text-center">{{ $index + 1 }}
+                                </td>
+                                <td class="border border-black dark:border-gray-300 p-2">
+                                    {{ $item->name_item ?? 'Tidak ada data' }}</td>
+                                <td class="border border-black dark:border-gray-300 p-2 text-center">
+                                    {{ $item->quantity ?? 'Tidak ada data' }}</td>
+                                <td class="border border-black dark:border-gray-300 p-2">
+                                    {{ $item->description ?? 'Tidak ada data' }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -90,30 +113,32 @@
                     <div class="custom-signature text-center mb-8">
                         <p>Di buat oleh,</p>
                         <div class="mt-8 border-t border-black dark:border-gray-300"></div>
-                        <p>{{ $record->fieldOfficer->user->name ?? 'Tidak ada data' }}</p>
+                        <p>{{ $record->fieldOfficer->user->name ?? 'Belum ada petugas lapangan' }}</p>
                     </div>
                     <div class="custom-signature text-center mb-8">
                         <p>Disetujui Oleh</p>
                         <div class="mt-8 border-t border-black dark:border-gray-300"></div>
-                        <p>{{ $record->roomOfficer->user->name ?? 'Tidak ada data' }}</p>
+                        <p>{{ $record->roomOfficer->user->name ?? 'Belum ada petugas ruangan' }}</p>
                     </div>
                     <div class="custom-signature text-center mb-8">
                         <p>Supir</p>
                         <div class="mt-8 border-t border-black dark:border-gray-300"></div>
-                        <p>{{ $record->nama_driver ?? 'Tidak ada data' }}</p>
+                        <p>{{ $record->nama_driver ?? 'Belum ada nama supir' }}</p>
                     </div>
                     <div class="custom-signature text-center mb-8">
                         <p>Penerima</p>
                         <div class="mt-8 border-t border-black dark:border-gray-300"></div>
+                        <p>{{ $record->roomOfficer->user->name ?? 'Belum ada petugas gudang' }}</p>
                     </div>
                 </div>
-            </x-filament::card>
-        </div>
+            </div>
+        </x-filament::card>
     </div>
 
     @push('styles')
         <style>
-            .custom-table td, .custom-table th {
+            .custom-table td,
+            .custom-table th {
                 border: 1px solid black;
                 padding: 6px;
                 text-align: center;
@@ -142,27 +167,13 @@
                 width: 100%;
             }
 
-            /* Mode Gelap */
-            .dark #printable-area {
-                background-color: #1a1a1a;
-                color: white;
-            }
-
-            .dark .custom-table th,
-            .dark .custom-table td,
-            .dark .custom-header,
-            .dark .custom-signature,
-            .dark .company-info,
-            .dark .header-title {
-                border-color: #4a5568;
-                color: white;
-            }
 
             /* Style Cetak */
             @media print {
                 @page {
                     size: A4;
-                    margin: 0;
+                    margin: 1mm 2mm 8mm 2mm;
+                    /* Atas 1mm, Kanan 2mm, Bawah 8mm, Kiri 2mm */
                 }
 
                 body {
@@ -177,6 +188,17 @@
                     left: 0;
                     top: 0;
                     width: 100%;
+                }
+
+                /* Menempatkan footer tanggal di bawah halaman */
+                .print-date {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    padding: 10px;
+                    text-align: center;
+                    font-size: 10px;
                 }
             }
         </style>

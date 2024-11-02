@@ -36,7 +36,7 @@ class PrintDeliveryNote extends Page
                 ->icon('heroicon-o-arrow-left'),
 
             Actions\Action::make('print')
-                ->label('Print Surat Jalan')
+                ->label('Cetak Surat Jalan')
                 ->color('info')
                 ->icon('heroicon-o-printer')
                 ->action('printDeliveryNote'),
