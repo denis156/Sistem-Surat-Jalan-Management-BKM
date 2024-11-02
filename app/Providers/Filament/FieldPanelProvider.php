@@ -2,21 +2,26 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Widgets;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
+use Filament\PanelProvider;
+use Filament\Pages\Dashboard;
+use Filament\Support\Colors\Color;
+use Filament\Navigation\NavigationItem;
+use Filament\Navigation\NavigationGroup;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Navigation\NavigationBuilder;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use App\Filament\Field\Resources\DeliveryNoteResource;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 class FieldPanelProvider extends PanelProvider
 {
@@ -29,10 +34,12 @@ class FieldPanelProvider extends PanelProvider
             ->registration()
             ->passwordReset()
             ->emailVerification()
+            ->sidebarCollapsibleOnDesktop()
             ->favicon(asset('images/logo.png'))
             ->brandLogo(asset('images/sidebar.png'))
             ->brandLogoHeight('49px')
             ->font('Comic Sans MS')
+            ->sidebarWidth('17rem')
             ->colors([
                 'primary' => '#005028',
                 'danger' => Color::Rose,
@@ -64,6 +71,28 @@ class FieldPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
+                return $builder->groups([
+                    NavigationGroup::make('Menu Utama')
+                        ->items([
+                            NavigationItem::make('dashboard')
+                                ->label(fn(): string => __('filament-panels::pages/dashboard.title'))
+                                ->url(fn(): string => Dashboard::getUrl())
+                                ->isActiveWhen(fn() => request()->routeIs('filament.field.pages.dashboard'))
+                                ->icon('heroicon-o-home'),
+                        ])
+                        ->collapsible(false),
+                    NavigationGroup::make('Management Surat Jalan')
+                        ->items([
+                            ...DeliveryNoteResource::getNavigationItems(),
+                            NavigationItem::make('Buat Surat Jalan')
+                                ->label('Buat Surat Jalan')
+                                ->url(fn() => route('filament.field.resources.Surat-Jalan.create'))
+                                ->icon('heroicon-o-document-plus')
+                                ->isActiveWhen(fn() => request()->routeIs('filament.field.resources.Surat-Jalan.create')),
+                        ]),
+                ]);
+            });
     }
 }
