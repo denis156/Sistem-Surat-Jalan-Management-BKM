@@ -579,7 +579,6 @@ class DeliveryNoteResource extends Resource
             'create' => Pages\CreateDeliveryNote::route('/create'),
             'edit' => Pages\EditDeliveryNote::route('/{record}/edit'),
             'print' => Pages\PrintDeliveryNote::route('/{record}/print'),
-            'laporan' => Pages\LaporanSuratJalan::route('/laporan'),
         ];
     }
 
