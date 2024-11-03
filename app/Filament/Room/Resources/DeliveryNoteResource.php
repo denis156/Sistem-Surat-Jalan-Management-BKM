@@ -177,6 +177,8 @@ class DeliveryNoteResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->poll('60s')
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('index')
                     ->rowIndex()
