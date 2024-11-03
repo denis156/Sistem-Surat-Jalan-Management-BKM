@@ -42,7 +42,7 @@ class DeliveryNoteResource extends Resource
                                 ->disabled(),
 
                             Forms\Components\Hidden::make('warehouse_officer_id')
-                                ->default(fn () => auth()->user()->officer->id),
+                                ->default(fn() => auth()->user()->officer->id),
                         ]),
 
                     Step::make('Detail Pengiriman')
@@ -120,12 +120,12 @@ class DeliveryNoteResource extends Resource
                             Forms\Components\DatePicker::make('tanggal_bongkar')
                                 ->label('Tanggal Bongkar')
                                 ->required()
-                                ->visible(fn (callable $get) => $get('status') === 'selesai'),
+                                ->visible(fn(callable $get) => $get('status') === 'selesai'),
 
                             Forms\Components\TimePicker::make('waktu_bongkar')
                                 ->label('Waktu Bongkar')
                                 ->required()
-                                ->visible(fn (callable $get) => $get('status') === 'selesai'),
+                                ->visible(fn(callable $get) => $get('status') === 'selesai'),
                         ]),
                 ])->skippable(),
             ]);
@@ -134,35 +134,102 @@ class DeliveryNoteResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->poll('60s')
+            ->defaultSort('created_at', 'desc')
             ->columns([
+                Tables\Columns\TextColumn::make('index')
+                    ->rowIndex()
+                    ->label('No.'),
+
                 Tables\Columns\TextColumn::make('nomor_surat')
                     ->label('Nomor Surat')
                     ->searchable()
+                    ->sortable()
+                    ->copyable()
+                    ->copyMessage('Nomor surat berhasil disalin!')
+                    ->copyMessageDuration(1500)
+                    ->tooltip('Klik untuk menyalin')
+                    ->weight('bold'),
+
+                Tables\Columns\TextColumn::make('client.user.name')
+                    ->label('Klien')
+                    ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('client.company_name')
-                    ->label('Client')
+                Tables\Columns\TextColumn::make('items_sum_quantity')
+                    ->label('Jumlah Item')
+                    ->sum('items', 'quantity')
+                    ->sortable()
+                    ->badge()
+                    ->color('info'),
+
+                Tables\Columns\TextColumn::make('fieldOfficer.user.name')
+                    ->label('Petugas Lapangan')
+                    ->searchable()
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tgl. Dibuat')
+                    ->dateTime('d M Y H:i')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('roomOfficer.user.name')
+                    ->label('Petugas Ruangan')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('ship_to')
+                    ->label('Tujuan')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'gudang kota' => 'success',
+                        'gudang unaaha' => 'warning',
+                        'gudang kolaka' => 'danger',
+                    })
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('tanggal_pengiriman')
-                    ->label('Tanggal Pengiriman')
-                    ->date(),
+                    ->label('Tgl. Dikirim')
+                    ->date('d M Y H:i')
+                    ->sortable(),
 
-                Tables\Columns\TextColumn::make('tanggal_sampai')
-                    ->label('Tanggal Sampai')
-                    ->date(),
-
-                Tables\Columns\TextColumn::make('ship_to')
-                    ->label('Tujuan'),
+                Tables\Columns\TextColumn::make('warehouseOfficer.user.name')
+                    ->label('Petugas Gudang')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
                     ->badge()
-                    ->colors([
-                        'warning' => 'dikirim',
-                        'info' => 'sampai',
-                        'success' => 'selesai',
-                    ]),
+                    ->color(fn(string $state): string => match ($state) {
+                        'dibuat' => 'gray',
+                        'dikirim' => 'warning',
+                        'sampai' => 'info',
+                        'selesai' => 'success',
+                    })
+                    ->icon(fn(string $state): string => match ($state) {
+                        'dibuat' => 'heroicon-o-pencil',
+                        'dikirim' => 'heroicon-o-truck',
+                        'sampai' => 'heroicon-o-check-circle',
+                        'selesai' => 'heroicon-o-flag',
+                        default => 'heroicon-o-question-mark-circle'
+                    })
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\IconColumn::make('print')
+                    ->label('Dicetak')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
+
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Tgl. Diupdate')
+                    ->dateTime('d M Y H:i')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
@@ -176,7 +243,7 @@ class DeliveryNoteResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
-                    ->visible(fn (DeliveryNote $record) => $record->status !== 'selesai'),
+                    ->visible(fn(DeliveryNote $record) => $record->status !== 'selesai'),
             ]);
     }
 

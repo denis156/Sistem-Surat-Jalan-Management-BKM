@@ -183,6 +183,7 @@ class DeliveryNoteResource extends Resource
                 Tables\Columns\TextColumn::make('index')
                     ->rowIndex()
                     ->label('No.'),
+
                 Tables\Columns\TextColumn::make('nomor_surat')
                     ->label('Nomor Surat')
                     ->searchable()
@@ -209,6 +210,7 @@ class DeliveryNoteResource extends Resource
                     ->label('Petugas Lapangan')
                     ->searchable()
                     ->toggleable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Tgl. Dibuat')
                     ->dateTime('d M Y H:i')
@@ -272,7 +274,6 @@ class DeliveryNoteResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
