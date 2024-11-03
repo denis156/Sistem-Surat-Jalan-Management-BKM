@@ -13,6 +13,7 @@ use Filament\Forms\Components\Wizard;
 use Filament\Support\Enums\ActionSize;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Wizard\Step;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DeliveryNoteResource\Pages;
 
 class DeliveryNoteResource extends Resource
@@ -28,6 +29,8 @@ class DeliveryNoteResource extends Resource
     protected static ?string $slug = 'Surat-Jalan';
 
     protected static ?string $pluralModelLabel = 'Surat Jalan';
+
+    protected static ?string $recordTitleAttribute = 'nomor_surat';
 
     public static function form(Form $form): Form
     {
@@ -48,6 +51,7 @@ class DeliveryNoteResource extends Resource
 
                                     Forms\Components\Grid::make()
                                         ->schema([
+                                            // Untuk Petugas Klien
                                             Forms\Components\Select::make('client_id')
                                                 ->label('Klien')
                                                 ->relationship(
@@ -55,7 +59,7 @@ class DeliveryNoteResource extends Resource
                                                     'company_name',
                                                     fn(Builder $query) => $query
                                                         ->where('is_active', true)
-                                                        ->whereHas('user', fn(Builder $subQuery) => $subQuery->where('role', 'client')) // Memastikan hanya user dengan role 'client'
+                                                        ->whereHas('user', fn(Builder $subQuery) => $subQuery->where('role', 'client'))
                                                         ->with('user')
                                                 )
                                                 ->getOptionLabelFromRecordUsing(fn($record) => "{$record->user->name} - {$record->company_name}")
@@ -63,6 +67,7 @@ class DeliveryNoteResource extends Resource
                                                 ->preload()
                                                 ->required(),
 
+                                            // Untuk Petugas Lapangan
                                             Forms\Components\Select::make('field_officer_id')
                                                 ->label('Petugas Lapangan')
                                                 ->relationship(
@@ -74,9 +79,10 @@ class DeliveryNoteResource extends Resource
                                                         ->with('user')
                                                 )
                                                 ->getOptionLabelFromRecordUsing(fn($record) => "{$record->user->name} ({$record->employee_id})")
-                                                ->searchable(['user.name', 'employee_id'])
+                                                ->searchable() // Hanya searchable tanpa parameter
                                                 ->preload(),
 
+                                            // Untuk Petugas Ruangan
                                             Forms\Components\Select::make('room_officer_id')
                                                 ->label('Petugas Ruangan')
                                                 ->relationship(
@@ -88,9 +94,10 @@ class DeliveryNoteResource extends Resource
                                                         ->with('user')
                                                 )
                                                 ->getOptionLabelFromRecordUsing(fn($record) => "{$record->user->name} ({$record->employee_id})")
-                                                ->searchable(['user.name', 'employee_id'])
+                                                ->searchable()
                                                 ->preload(),
 
+                                            // Untuk Petugas Gudang
                                             Forms\Components\Select::make('warehouse_officer_id')
                                                 ->label('Petugas Gudang')
                                                 ->relationship(
@@ -102,7 +109,7 @@ class DeliveryNoteResource extends Resource
                                                         ->with('user')
                                                 )
                                                 ->getOptionLabelFromRecordUsing(fn($record) => "{$record->user->name} ({$record->employee_id})")
-                                                ->searchable(['user.name', 'employee_id'])
+                                                ->searchable()
                                                 ->preload(),
                                         ])
                                         ->columns(2)
@@ -270,6 +277,7 @@ class DeliveryNoteResource extends Resource
             ->poll('60s')
             ->defaultSort('created_at', 'desc')
             ->columns([
+                // Informasi Dasar
                 Tables\Columns\TextColumn::make('index')
                     ->rowIndex()
                     ->label('No.'),
@@ -283,54 +291,6 @@ class DeliveryNoteResource extends Resource
                     ->copyMessageDuration(1500)
                     ->tooltip('Klik untuk menyalin')
                     ->weight('bold'),
-
-                Tables\Columns\TextColumn::make('client.user.name')
-                    ->label('Klien')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('items_sum_quantity')
-                    ->label('Jumlah Item')
-                    ->sum('items', 'quantity')
-                    ->sortable()
-                    ->badge()
-                    ->color('info'),
-
-                Tables\Columns\TextColumn::make('fieldOfficer.user.name')
-                    ->label('Petugas Lapangan')
-                    ->searchable()
-                    ->toggleable(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Tgl. Dibuat')
-                    ->dateTime('d M Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\TextColumn::make('roomOfficer.user.name')
-                    ->label('Petugas Ruangan')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\TextColumn::make('ship_to')
-                    ->label('Tujuan')
-                    ->badge()
-                    ->color(fn(string $state): string => match ($state) {
-                        'gudang kota' => 'success',
-                        'gudang unaaha' => 'warning',
-                        'gudang kolaka' => 'danger',
-                    })
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('tanggal_pengiriman')
-                    ->label('Tgl. Dikirim')
-                    ->date('d M Y H:i')
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('warehouseOfficer.user.name')
-                    ->label('Petugas Gudang')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -358,8 +318,112 @@ class DeliveryNoteResource extends Resource
                     ->trueColor('success')
                     ->falseColor('danger'),
 
+                // Informasi Klien
+                Tables\Columns\TextColumn::make('client.user.name')
+                    ->label('Nama PIC')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('client.company_name')
+                    ->label('Perusahaan PIC')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                // Informasi Petugas
+                Tables\Columns\TextColumn::make('fieldOfficer.user.name')
+                    ->label('Petugas Lapangan')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('roomOfficer.user.name')
+                    ->label('Petugas Ruangan')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('warehouseOfficer.user.name')
+                    ->label('Petugas Gudang')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                // Informasi Pengiriman
+                Tables\Columns\TextColumn::make('ship_to')
+                    ->label('Tujuan')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'gudang kota' => 'success',
+                        'gudang unaaha' => 'warning',
+                        'gudang kolaka' => 'danger',
+                    })
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('nama_driver')
+                    ->label('Supir')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('nomor_plat')
+                    ->label('Plat')
+                    ->searchable()
+                    ->sortable(),
+
+                // Informasi Item
+                Tables\Columns\TextColumn::make('items.name_item')
+                    ->label('Nama Item')
+                    ->listWithLineBreaks()
+                    ->bulleted(),
+
+                Tables\Columns\TextColumn::make('items.quantity')
+                    ->label('Jumlah')
+                    ->listWithLineBreaks(),
+
+                Tables\Columns\TextColumn::make('items.description')
+                    ->label('Kondisi')
+                    ->listWithLineBreaks(),
+
+                Tables\Columns\TextColumn::make('items_sum_quantity')
+                    ->label('Jumlah Item')
+                    ->getStateUsing(function (DeliveryNote $record) {
+                        $total = 0;
+                        foreach ($record->items as $item) {
+                            if ($item->description === 'karung kurang') {
+                                $total -= $item->quantity;
+                            } else {
+                                $total += $item->quantity;
+                            }
+                        }
+                        return $total;
+                    })
+                    ->badge()
+                    ->color('info'),
+
+                // Informasi Waktu
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tgl. Dibuat')
+                    ->dateTime('d M Y H:i')
+                    ->color('secondary')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('tanggal_pengiriman')
+                    ->label('Tgl. Dikirim')
+                    ->color('warning')
+                    ->date('d M Y H:i')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('tanggal_sampai')
+                    ->label('Tgl. Sampai')
+                    ->color('info')
+                    ->date('d M Y H:i')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('tanggal_bongkar')
+                    ->label('Tgl. Selesai')
+                    ->color('success')
+                    ->date('d M Y H:i')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Tgl. Diupdate')
+                    ->label('Tgl. Update')
                     ->dateTime('d M Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -484,7 +548,9 @@ class DeliveryNoteResource extends Resource
             ->emptyStateIcon('heroicon-o-document-text')
             ->striped()
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->label('Buat Surat Jalan')
+                    ->icon('heroicon-o-plus'),
             ]);
     }
 
@@ -528,4 +594,11 @@ class DeliveryNoteResource extends Resource
         return 'Jumlah surat jalan yang sudah selesai';
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
+    }
 }
