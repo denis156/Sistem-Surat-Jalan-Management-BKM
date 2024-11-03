@@ -61,19 +61,6 @@ class DeliveryNoteResource extends Resource
                                                 ->searchable()
                                                 ->preload()
                                                 ->required(),
-
-                                            Forms\Components\Select::make('status')
-                                                ->label('Status')
-                                                ->options([
-                                                    'dibuat' => 'Dibuat',
-                                                    'dikirim' => 'Dikirim',
-                                                ])
-                                                ->default('utuh')
-                                                ->native(false)
-                                                ->required(),
-
-                                            Forms\Components\Hidden::make('room_officer_id')
-                                                ->default(fn() => auth()->user()->officer->id),
                                         ])
                                         ->columns(3),
                                 ]),
