@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\LaporanSuratJalan;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -81,10 +82,15 @@ class AdminPanelProvider extends PanelProvider
                     NavigationGroup::make('Menu Utama')
                         ->items([
                             NavigationItem::make('dashboard')
-                                ->label(fn(): string => __('filament-panels::pages/dashboard.title'))
+                                ->label('Dashboard')
                                 ->url(fn(): string => Dashboard::getUrl())
                                 ->isActiveWhen(fn() => request()->routeIs('filament.admin.pages.dashboard'))
                                 ->icon('heroicon-o-home'),
+                            NavigationItem::make('laporan')
+                                ->label('Laporan Surat Jalan')
+                                ->url(fn(): string => LaporanSuratJalan::getUrl())
+                                ->isActiveWhen(fn() => request()->routeIs('filament.admin.pages.laporan-surat-jalan'))
+                                ->icon('heroicon-o-clipboard-document-list'),
                         ])
                         ->collapsible(false),
                     NavigationGroup::make('Management Surat Jalan')
