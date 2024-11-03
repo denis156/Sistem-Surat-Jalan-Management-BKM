@@ -2,10 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Resources\ClientResource;
-use App\Filament\Resources\DeliveryNoteResource;
-use App\Filament\Resources\OfficerResource;
-use App\Filament\Resources\UserResource;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -13,10 +9,14 @@ use Filament\PanelProvider;
 use Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
 use Filament\Navigation\NavigationItem;
+use App\Filament\Resources\UserResource;
 use Filament\Navigation\NavigationGroup;
+use App\Filament\Resources\ClientResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Navigation\NavigationBuilder;
+use App\Filament\Resources\OfficerResource;
 use Illuminate\Session\Middleware\StartSession;
+use App\Filament\Resources\DeliveryNoteResource;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
