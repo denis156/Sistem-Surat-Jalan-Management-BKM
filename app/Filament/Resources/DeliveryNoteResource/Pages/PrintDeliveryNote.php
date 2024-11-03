@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\DeliveryNoteResource\Pages;
 
-use App\Filament\Resources\DeliveryNoteResource;
-use Filament\Resources\Pages\Page;
 use Filament\Actions;
 use App\Models\DeliveryNote;
+use Filament\Resources\Pages\Page;
+use App\Filament\Resources\DeliveryNoteResource;
 
 class PrintDeliveryNote extends Page
 {
