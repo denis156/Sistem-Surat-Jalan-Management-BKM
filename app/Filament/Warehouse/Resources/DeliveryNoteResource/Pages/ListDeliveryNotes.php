@@ -9,11 +9,4 @@ use Filament\Resources\Pages\ListRecords;
 class ListDeliveryNotes extends ListRecords
 {
     protected static string $resource = DeliveryNoteResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
 }
