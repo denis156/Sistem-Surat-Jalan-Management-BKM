@@ -1,0 +1,3 @@
+<div>
+    {{ $this->deliveryNoteInfolist }}
+</div>
