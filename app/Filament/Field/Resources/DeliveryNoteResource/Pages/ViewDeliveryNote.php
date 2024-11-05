@@ -2,8 +2,8 @@
 
 namespace App\Filament\Field\Resources\DeliveryNoteResource\Pages;
 
-use App\Models\DeliveryNote;
 use Filament\Actions;
+use App\Models\DeliveryNote;
 use Filament\Resources\Pages\Page;
 use App\Filament\Field\Resources\DeliveryNoteResource;
 
@@ -34,6 +34,13 @@ class ViewDeliveryNote extends Page
                 ->url($this->getResource()::getUrl('index'))
                 ->color('secondary')
                 ->icon('heroicon-o-arrow-left'),
+
+            Actions\Action::make('edit')
+                ->label('Edit')
+                ->url(fn() => $this->getResource()::getUrl('edit', ['record' => $this->record->getKey()]))
+                ->color('success')
+                ->icon('heroicon-o-pencil')
+                ->visible(fn() => $this->record && $this->record->status === 'dibuat'),
         ];
     }
 
