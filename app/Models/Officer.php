@@ -36,11 +36,21 @@ class Officer extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function deliveryNotes()
+    // Relasi dengan DeliveryNote sebagai field officer
+    public function fieldDeliveryNotes()
     {
-        return $this
-            ->hasMany(DeliveryNote::class, 'field_officer_id')
-            ->orWhere('room_officer_id', $this->id)
-            ->orWhere('warehouse_officer_id', $this->id);
+        return $this->hasMany(DeliveryNote::class, 'field_officer_id');
+    }
+
+    // Relasi dengan DeliveryNote sebagai room officer
+    public function roomDeliveryNotes()
+    {
+        return $this->hasMany(DeliveryNote::class, 'room_officer_id');
+    }
+
+    // Relasi dengan DeliveryNote sebagai warehouse officer
+    public function warehouseDeliveryNotes()
+    {
+        return $this->hasMany(DeliveryNote::class, 'warehouse_officer_id');
     }
 }
