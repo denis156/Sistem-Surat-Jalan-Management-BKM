@@ -356,15 +356,16 @@ class DeliveryNoteResource extends Resource
             ])
 
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                Tables\Filters\SelectFilter::make('ship_to')
+                    ->label('Tujuan')
+                    ->native(false)
+                    ->multiple()
+                    ->placeholder('Pilih filter tujuan')
                     ->options([
-                        'dibuat' => 'Dibuat',
-                        'dikirim' => 'Dikirim',
-                        'sampai' => 'Sampai',
-                        'selesai' => 'Selesai',
-                    ])
-                    ->label('Status')
-                    ->native(false),
+                        'gudang kota' => 'Gudang kota',
+                        'gudang unaaha' => 'Gudang unaaha',
+                        'gudang kolaka' => 'Gudang kolaka',
+                    ]),
             ])
 
             ->actions([
