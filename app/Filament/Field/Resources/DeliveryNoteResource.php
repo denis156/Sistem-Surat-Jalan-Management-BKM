@@ -4,7 +4,6 @@ namespace App\Filament\Field\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Client;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\DeliveryNote;
@@ -49,6 +48,7 @@ class DeliveryNoteResource extends Resource
                                                 ->helperText('Nomor surat akan digenerate otomatis')
                                                 ->maxLength(255),
 
+                                            // Untuk Petugas Klien
                                             Forms\Components\Select::make('client_id')
                                                 ->label('Klien')
                                                 ->relationship(
@@ -62,7 +62,8 @@ class DeliveryNoteResource extends Resource
                                                 ->getOptionLabelFromRecordUsing(fn($record) => "{$record->user->name} - {$record->company_name}")
                                                 ->searchable()
                                                 ->preload()
-                                                ->required(),
+                                                ->helperText('Klien surat jalan akan di isi oleh petugas ruangan')
+                                                ->disabled(),
 
                                             Forms\Components\Hidden::make('field_officer_id')
                                                 ->default(fn() => auth()->user()->officer->id),
@@ -86,6 +87,7 @@ class DeliveryNoteResource extends Resource
                                                     'gudang unaaha' => 'Gudang Unaaha',
                                                     'gudang kolaka' => 'Gudang Kolaka',
                                                 ])
+                                                ->placeholder('Pilih Tujuan Pengiriman')
                                                 ->native(false)
                                                 ->required(),
 
@@ -95,6 +97,7 @@ class DeliveryNoteResource extends Resource
                                                     'palka 1' => 'Palka 1',
                                                     'palka 2' => 'Palka 2',
                                                 ])
+                                                ->placeholder('Pilih Palka')
                                                 ->native(false)
                                                 ->required(),
                                         ])->columns(2),
@@ -104,11 +107,13 @@ class DeliveryNoteResource extends Resource
                                             Forms\Components\TextInput::make('nomor_plat')
                                                 ->label('Nomor Plat')
                                                 ->required()
+                                                ->Placeholder('Masukan Nomor Plat Driver')
                                                 ->maxLength(255),
 
                                             Forms\Components\TextInput::make('nama_driver')
                                                 ->label('Nama Driver')
                                                 ->required()
+                                                ->Placeholder('Masukan Nama Driver')
                                                 ->maxLength(255),
                                         ])->columns(2),
                                 ]),
@@ -128,17 +133,20 @@ class DeliveryNoteResource extends Resource
                                                     Forms\Components\TextInput::make('name_item')
                                                         ->label('Nama Item')
                                                         ->required()
+                                                        ->placeholder('Masukan Nama Item')
                                                         ->default('Beras 50Kg/Karung')
                                                         ->maxLength(255),
 
                                                     Forms\Components\TextInput::make('quantity')
                                                         ->label('Jumlah')
                                                         ->numeric()
+                                                        ->placeholder('Masukan Jumlah')
                                                         ->required()
                                                         ->minValue(1),
 
                                                     Forms\Components\Select::make('description')
                                                         ->label('Kondisi')
+                                                        ->placeholder('Pilih Kondisi')
                                                         ->options([
                                                             'utuh' => 'Utuh',
                                                             'robek kapal' => 'Robek Kapal',
