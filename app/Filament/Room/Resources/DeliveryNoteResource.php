@@ -388,7 +388,7 @@ class DeliveryNoteResource extends Resource
                     ->color('success'),
             ])
             ->emptyStateHeading('Belum ada surat jalan')
-            ->emptyStateDescription('Tunggu petugas ruangan untuk membuat surat jalan baru')
+            ->emptyStateDescription('Tunggu petugas lapangan untuk membuat surat jalan baru')
             ->emptyStateIcon('heroicon-o-document-text')
             ->striped();
     }
