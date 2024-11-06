@@ -17,117 +17,163 @@ use Illuminate\Database\Eloquent\Builder;
 class DeliveryNoteResource extends Resource
 {
     protected static ?string $model = DeliveryNote::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-truck';
-    protected static ?string $navigationLabel = 'Penerimaan Barang';
+
+    protected static ?string $navigationLabel = 'Penerimaan Surat Jalan';
+
+    protected static ?string $modelLabel = 'Penerimaan Surat Jalan';
+
+    protected static ?string $slug = 'Penerimaan-Surat-Jalan';
+
+    protected static ?string $pluralModelLabel = 'Penerimaan Surat Jalan';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('Informasi Surat Jalan')
+                    Step::make('Informasi Dasar')
+                        ->icon('heroicon-o-information-circle')
+                        ->description('Informasi dasar surat jalan')
                         ->schema([
-                            Forms\Components\TextInput::make('nomor_surat')
-                                ->label('Nomor Surat')
-                                ->disabled(),
+                            Forms\Components\Section::make()
+                                ->schema([
+                                    Forms\Components\Grid::make()
+                                        ->schema([
+                                            Forms\Components\TextInput::make('nomor_surat')
+                                                ->label('Nomor Surat')
+                                                ->disabled()
+                                                ->helperText('Nomor surat akan digenerate otomatis')
+                                                ->maxLength(255),
 
-                            Forms\Components\Select::make('client_id')
-                                ->label('Client')
-                                ->relationship('client', 'company_name')
-                                ->disabled(),
+                                            Forms\Components\Select::make('client_id')
+                                                ->label('Klien')
+                                                ->relationship(
+                                                    'client',
+                                                    'company_name',
+                                                    fn(Builder $query) => $query
+                                                        ->where('is_active', true)
+                                                        ->whereHas('user', fn(Builder $subQuery) => $subQuery->where('role', 'client'))
+                                                        ->with('user')
+                                                )
+                                                ->getOptionLabelFromRecordUsing(fn($record) => "{$record->user->name} - {$record->company_name}")
+                                                ->searchable()
+                                                ->preload()
+                                                ->required()
+                                                ->disabled(),
 
-                            Forms\Components\Select::make('field_officer_id')
-                                ->label('Field Officer')
-                                ->relationship('fieldOfficer', 'employee_id')
-                                ->disabled(),
-
-                            Forms\Components\Hidden::make('warehouse_officer_id')
-                                ->default(fn() => auth()->user()->officer->id),
+                                            Forms\Components\Select::make('status')
+                                                ->label('Status')
+                                                ->options([
+                                                    'sampai' => 'Sampai',
+                                                    'selesai' => 'Selesai',
+                                                ])
+                                                ->default('utuh')
+                                                ->native(false)
+                                                ->required(),
+                                        ])
+                                        ->columns(3),
+                                ]),
                         ]),
 
                     Step::make('Detail Pengiriman')
+                        ->icon('heroicon-o-truck')
+                        ->description('Informasi detail pengiriman')
                         ->schema([
-                            Forms\Components\DatePicker::make('tanggal_pengiriman')
-                                ->label('Tanggal Pengiriman')
-                                ->disabled(),
+                            Forms\Components\Section::make()
+                                ->schema([
+                                    Forms\Components\Grid::make()
+                                        ->schema([
+                                            Forms\Components\Select::make('ship_to')
+                                                ->label('Tujuan Pengiriman')
+                                                ->options([
+                                                    'gudang kota' => 'Gudang Kota',
+                                                    'gudang unaaha' => 'Gudang Unaaha',
+                                                    'gudang kolaka' => 'Gudang Kolaka',
+                                                ])
+                                                ->native(false)
+                                                ->required()
+                                                ->disabled(),
 
-                            Forms\Components\TimePicker::make('waktu_pengiriman')
-                                ->label('Waktu Pengiriman')
-                                ->disabled(),
+                                            Forms\Components\Select::make('palka')
+                                                ->label('Palka')
+                                                ->options([
+                                                    'palka 1' => 'Palka 1',
+                                                    'palka 2' => 'Palka 2',
+                                                ])
+                                                ->native(false)
+                                                ->required()
+                                                ->disabled(),
+                                        ])->columns(2),
 
-                            Forms\Components\Select::make('ship_to')
-                                ->label('Tujuan Pengiriman')
-                                ->disabled()
-                                ->options([
-                                    'gudang kota' => 'Gudang Kota',
-                                    'gudang unaaha' => 'Gudang Unaaha',
-                                    'gudang kolaka' => 'Gudang Kolaka',
+                                    Forms\Components\Grid::make()
+                                        ->schema([
+                                            Forms\Components\TextInput::make('nomor_plat')
+                                                ->label('Nomor Plat')
+                                                ->required()
+                                                ->maxLength(255)
+                                                ->disabled(),
+
+                                            Forms\Components\TextInput::make('nama_driver')
+                                                ->label('Nama Driver')
+                                                ->required()
+                                                ->maxLength(255)
+                                                ->disabled(),
+                                        ])->columns(2),
                                 ]),
                         ]),
 
                     Step::make('Items')
+                        ->icon('heroicon-o-cube')
+                        ->description('Daftar item yang akan dikirim')
                         ->schema([
-                            Forms\Components\Repeater::make('items')
-                                ->relationship()
+                            Forms\Components\Section::make()
                                 ->schema([
-                                    Forms\Components\TextInput::make('name_item')
-                                        ->label('Nama Item')
-                                        ->disabled(),
+                                    Forms\Components\Repeater::make('items')
+                                        ->relationship()
+                                        ->schema([
+                                            Forms\Components\Grid::make()
+                                                ->schema([
+                                                    Forms\Components\TextInput::make('name_item')
+                                                        ->label('Nama Item')
+                                                        ->required()
+                                                        ->default('Beras 50Kg/Karung')
+                                                        ->maxLength(255),
 
-                                    Forms\Components\TextInput::make('quantity')
-                                        ->label('Jumlah')
-                                        ->disabled(),
+                                                    Forms\Components\TextInput::make('quantity')
+                                                        ->label('Jumlah')
+                                                        ->numeric()
+                                                        ->required()
+                                                        ->minValue(1),
 
-                                    Forms\Components\Select::make('description')
-                                        ->label('Kondisi')
-                                        ->options([
-                                            'utuh' => 'Utuh',
-                                            'robek kapal' => 'Robek Kapal',
-                                            'basah kapal' => 'Basah Kapal',
-                                            'robek truck' => 'Robek Truck',
-                                            'basah truck' => 'Basah Truck',
-                                            'robek pbm' => 'Robek PBM',
-                                            'basah pbm' => 'Basah PBM',
-                                            'karung lebih' => 'Karung Lebih',
-                                            'karung kurang' => 'Karung Kurang',
+                                                    Forms\Components\Select::make('description')
+                                                        ->label('Kondisi')
+                                                        ->options([
+                                                            'utuh' => 'Utuh',
+                                                            'robek kapal' => 'Robek Kapal',
+                                                            'basah kapal' => 'Basah Kapal',
+                                                            'robek pbm' => 'Robek PBM',
+                                                            'basah pbm' => 'Basah PBM',
+                                                        ])
+                                                        ->default('utuh')
+                                                        ->native(false)
+                                                        ->required(),
+                                                ])->columns(3),
                                         ])
-                                        ->required(),
-                                ])
-                                ->addActionLabel('Tambah Item'),
+                                        ->defaultItems(1)
+                                        ->addActionLabel('Tambah Item')
+                                        ->reorderable()
+                                        ->collapsible()
+                                        ->cloneable()
+                                        ->itemLabel(fn(array $state): ?string => $state['name_item'] ?? null),
+                                ]),
                         ]),
-
-                    Step::make('Status Penerimaan')
-                        ->schema([
-                            Forms\Components\Select::make('status')
-                                ->label('Status')
-                                ->options([
-                                    'dikirim' => 'Dikirim',
-                                    'sampai' => 'Sampai',
-                                    'selesai' => 'Selesai',
-                                ])
-                                ->required(),
-
-                            Forms\Components\DatePicker::make('tanggal_sampai')
-                                ->label('Tanggal Sampai')
-                                ->required()
-                                ->default(now()),
-
-                            Forms\Components\TimePicker::make('waktu_sampai')
-                                ->label('Waktu Sampai')
-                                ->required()
-                                ->default(now()),
-
-                            Forms\Components\DatePicker::make('tanggal_bongkar')
-                                ->label('Tanggal Bongkar')
-                                ->required()
-                                ->visible(fn(callable $get) => $get('status') === 'selesai'),
-
-                            Forms\Components\TimePicker::make('waktu_bongkar')
-                                ->label('Waktu Bongkar')
-                                ->required()
-                                ->visible(fn(callable $get) => $get('status') === 'selesai'),
-                        ]),
-                ])->skippable(),
+                ])
+                    ->skippable()
+                    ->persistStepInQueryString()
+                    ->columnSpanFull()
+                    ->startOnStep(3),
             ]);
     }
 
