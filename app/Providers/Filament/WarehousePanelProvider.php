@@ -2,21 +2,26 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Widgets;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Filament\PanelProvider;
+use Filament\Pages\Dashboard;
+use Filament\Support\Colors\Color;
+use Filament\Navigation\NavigationItem;
+use Filament\Navigation\NavigationGroup;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Navigation\NavigationBuilder;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use App\Filament\Warehouse\Resources\DeliveryNoteResource;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 class WarehousePanelProvider extends PanelProvider
 {
@@ -64,6 +69,23 @@ class WarehousePanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
+                return $builder->groups([
+                    NavigationGroup::make('Menu Utama')
+                        ->items([
+                            NavigationItem::make('dashboard')
+                                ->label(fn(): string => __('filament-panels::pages/dashboard.title'))
+                                ->url(fn(): string => Dashboard::getUrl())
+                                ->isActiveWhen(fn() => request()->routeIs('filament.warehouse.pages.dashboard'))
+                                ->icon('heroicon-o-home'),
+                        ])
+                        ->collapsible(false),
+                    NavigationGroup::make('Management Surat Jalan')
+                        ->items([
+                            ...DeliveryNoteResource::getNavigationItems(),
+                        ]),
+                ]);
+            });
     }
 }
