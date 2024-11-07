@@ -8,12 +8,16 @@
     "devDependencies": {
         "autoprefixer": "^10.4.20",
         "axios": "^1.6.4",
+        "flowbite": "^2.5.2",
         "laravel-vite-plugin": "^1.0.0",
         "postcss": "^8.4.47",
         "tailwindcss": "^3.4.14",
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@google/model-viewer": "^4.0.0",
+        "alpinejs": "^3.14.3",
+        "aos": "^2.3.4",
         "smooth-scroll": "^16.1.3"
     }
 }
