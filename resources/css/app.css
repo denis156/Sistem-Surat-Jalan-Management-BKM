@@ -1,3 +1,602 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'aos/dist/aos.css';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom Properties */
+:root {
+    --primary: #10B981;
+    --primary-dark: #047857;
+    --secondary: #065F46;
+    --accent: #34D399;
+    --text-primary: #111827;
+    --text-secondary: #4B5563;
+    --background: #F9FAFB;
+    --transition-base: 0.3s ease;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --nav-height: 80px;
+    --footer-height: 400px;
+}
+
+/* Base Styles */
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-tap-highlight-color: transparent;
+        scroll-padding-top: var(--nav-height);
+    }
+
+    body {
+        @apply font-sans antialiased text-gray-900 bg-white min-h-screen;
+        overflow-x: hidden;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+        @apply bg-green-500 text-white;
+    }
+
+    /* Improved focus styles */
+    :focus-visible {
+        @apply outline-none ring-2 ring-green-500 ring-offset-2;
+    }
+
+    /* Better heading hierarchy */
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-bold tracking-tight;
+    }
+}
+
+/* Component Styles */
+@layer components {
+    /* Navigation */
+    .nav-link {
+        @apply text-gray-700 hover:text-green-600 transition-colors duration-200 relative py-2;
+    }
+
+    .nav-link::after {
+        content: '';
+        @apply absolute bottom-0 left-0 w-0 h-0.5 bg-green-600 transition-all duration-200 opacity-0;
+    }
+
+    .nav-link:hover::after {
+        @apply w-full opacity-100;
+    }
+
+    .nav-link.active {
+        @apply text-green-600;
+    }
+
+    .nav-link.active::after {
+        @apply w-full opacity-100;
+    }
+
+    /* Buttons */
+    .btn {
+        @apply inline-flex items-center justify-center px-6 py-2 rounded-full font-medium transition-all duration-200 transform;
+        backdrop-filter: blur(4px);
+    }
+
+    .btn-primary {
+        @apply bg-green-600 text-white hover:bg-green-700 hover:scale-105 shadow-lg hover:shadow-xl;
+        background-image: linear-gradient(145deg, var(--primary), var(--primary-dark));
+    }
+
+    .btn-secondary {
+        @apply bg-white text-green-600 border-2 border-green-600 hover:bg-green-50;
+    }
+
+    .btn-icon {
+        @apply inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors;
+    }
+
+    /* Cards */
+    .feature-card {
+        @apply bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+
+    .feature-card:hover {
+        @apply border-green-500;
+        box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.2);
+    }
+
+    .testimonial-card {
+        @apply bg-white rounded-xl shadow-lg p-6 transition-all duration-300;
+        background: linear-gradient(145deg, #ffffff, #f9fafb);
+    }
+
+    /* Sections */
+    .section {
+        @apply py-20 relative overflow-hidden;
+    }
+
+    .section-title {
+        @apply text-3xl lg:text-4xl font-bold mb-4 text-gray-900;
+        letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+        @apply text-xl text-green-600 mb-2;
+    }
+
+    /* Container */
+    .container-custom {
+        @apply container mx-auto px-4 sm:px-6 lg:px-8;
+        max-width: 1280px;
+    }
+}
+
+/* Enhanced Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-20px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.95, 0.95, 1);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
+}
+
+.animate-slide-in {
+    animation: slideInLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-custom {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Enhanced Utility Classes */
+.gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-400;
+    background-size: 200% 200%;
+    animation: gradientMove 4s ease infinite;
+}
+
+.gradient-bg {
+    @apply bg-gradient-to-br from-green-500 to-green-400;
+    background-size: 200% 200%;
+    animation: gradientMove 4s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Loading States */
+.loading {
+    @apply animate-pulse bg-gray-200;
+}
+
+.skeleton {
+    @apply animate-pulse bg-gray-200 rounded;
+}
+
+/* Model Viewer Enhanced */
+model-viewer {
+    --poster-color: transparent;
+    --progress-bar-color: theme('colors.green.600');
+    --progress-bar-height: 4px;
+    --progress-mask: none;
+    --loading-box-shadow: none;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    background: linear-gradient(145deg, #f3f4f6, #ffffff);
+}
+
+/* Enhanced Scrollbar */
+@media (min-width: 768px) {
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-gray-100;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gray-400 rounded-full;
+        border: 2px solid theme('colors.gray.100');
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-500;
+    }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #111827;
+        --text-primary: #F9FAFB;
+        --text-secondary: #D1D5DB;
+        color-scheme: dark;
+    }
+
+    body {
+        @apply bg-gray-900 text-white;
+    }
+
+    .dark\:gradient-text {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-200;
+    }
+
+    .feature-card {
+        @apply bg-gray-800 border-gray-700;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-secondary {
+        @apply border-gray-700 text-gray-300 hover:bg-gray-800;
+    }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .section {
+        @apply py-12;
+    }
+
+    .section-title {
+        @apply text-2xl;
+    }
+
+    .nav-link::after {
+        display: none;
+    }
+
+    .container-custom {
+        @apply px-4;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        @apply text-black bg-white;
+    }
+
+    .section {
+        @apply py-4;
+        page-break-inside: avoid;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+
+    .gradient-text {
+        -webkit-text-fill-color: initial;
+        background: none;
+        @apply text-green-600;
+    }
+}
+
+/* Accessibility Improvements */
+.sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+}
+
+.focus-outline {
+    @apply focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+}
+
+/* Better Form Elements */
+input,
+select,
+textarea {
+    @apply rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500;
+}
+
+/* Loading Skeleton */
+.skeleton-text {
+    @apply h-4 bg-gray-200 rounded;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.skeleton-image {
+    @apply bg-gray-200 rounded;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Enhanced Transition */
+.transition-base {
+    @apply transition-all duration-300 ease-in-out;
+}
+
+/* Grid Layout Improvements */
+.grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.grid-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+/* Backdrop Blur Utilities */
+.backdrop-blur-custom {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Custom Shadows */
+.shadow-custom {
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-custom-lg {
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Optimizations */
+img {
+    @apply w-full h-auto;
+    content-visibility: auto;
+}
+
+/* Better List Styling */
+.custom-list {
+    @apply space-y-2;
+}
+
+.custom-list li {
+    @apply flex items-start;
+}
+
+.custom-list li::before {
+    content: '•';
+    @apply text-green-500 mr-2;
+}
+
+.tech-item {
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tech-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* FAQ Section Styles */
+.faq-item {
+    margin-bottom: 1rem;
+}
+
+.faq-question {
+    background-color: #f3f4f6;
+    color: #1f2937;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: #e5e7eb;
+}
+
+.faq-answer {
+    background-color: #ffffff;
+    color: #4b5563;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.faq-answer p {
+    margin: 0;
+}
+
+/* Transition Animation */
+.faq-answer[x-cloak] {
+    display: none;
+}
+
+/* Team Developer Section Styles */
+#team {
+    background-color: #f9fafb;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+/* Logo Container Styling */
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 150px; /* Batasi lebar logo */
+    overflow: hidden;
+    height: 50px; /* Atur tinggi sesuai logo */
+    margin: 0 auto; /* Pastikan logo berada di tengah */
+}
+
+.logo-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain; /* Menjaga proporsi logo */
+}
+
+/* Gradient Text Styling */
+.gradient-text {
+    background: linear-gradient(to right, #047857, #10B981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Section Header Styling */
+#team .text-center {
+    margin-bottom: 4rem;
+}
+
+#team .text-center p {
+    font-size: 1.25rem;
+    color: #10B981;
+}
+
+/* Developer Profile Card Styling */
+#team .rounded-2xl {
+    border-radius: 1.5rem;
+}
+
+#team .shadow-lg {
+    transition: box-shadow 0.3s ease;
+}
+
+#team .shadow-lg:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Developer Image Styling */
+#team .developer-profile img {
+    transition: transform 0.3s ease;
+    border-radius: 1.5rem 0 0 1.5rem;
+}
+
+#team .developer-profile img:hover {
+    transform: scale(1.05);
+}
+
+/* Profile Background Overlay */
+#team .flex > .relative > .absolute {
+    background: linear-gradient(to bottom right, #047857, #10B981);
+    opacity: 0.9;
+    border-radius: 1.5rem 0 0 1.5rem;
+}
+
+/* Social Link Styling */
+#team .social-link {
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5rem;
+}
+
+#team .social-link:hover {
+    border-color: #10B981;
+    color: #10B981;
+}
+
+/* Technology Tag Styling */
+#team .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+#team .tech-tags span {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 9999px; /* Full rounded */
+}
+
+#team .tech-tags .laravel {
+    background-color: #dbf4ff;
+    color: #047857;
+}
+
+#team .tech-tags .php {
+    background-color: #e0c3fc;
+    color: #8b5cf6;
+}
+
+#team .tech-tags .javascript {
+    background-color: #fef9c3;
+    color: #facc15;
+}
+
+#team .tech-tags .mysql {
+    background-color: #d1fae5;
+    color: #10B981;
+}
+
+#team .tech-tags .tailwind {
+    background-color: #e0e7ff;
+    color: #047857;
+}
+
+#team .tech-tags .alpine {
+    background-color: #fee2e2;
+    color: #f87171;
+}
