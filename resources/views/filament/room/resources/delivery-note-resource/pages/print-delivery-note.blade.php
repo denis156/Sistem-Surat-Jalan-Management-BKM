@@ -128,7 +128,7 @@
                     <div class="custom-signature text-center mb-8">
                         <p>Penerima</p>
                         <div class="mt-8 border-t border-black dark:border-gray-300"></div>
-                        <p>{{ $record->roomOfficer->user->name ?? 'Belum ada petugas gudang' }}</p>
+                        <p>{{ $record->WarehouseOfficer->user->name ?? 'Belum ada petugas gudang' }}</p>
                     </div>
                 </div>
             </div>
