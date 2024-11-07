@@ -10,6 +10,7 @@ use App\Models\DeliveryNote;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Wizard;
 use Filament\Support\Enums\Alignment;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Wizard\Step;
 use App\Filament\Warehouse\Resources\DeliveryNoteResource\Pages;
@@ -70,7 +71,7 @@ class DeliveryNoteResource extends Resource
                                                     'sampai' => 'Sampai',
                                                     'selesai' => 'Selesai',
                                                 ])
-                                                ->default('utuh')
+                                                ->disabled()
                                                 ->native(false)
                                                 ->required(),
                                         ])
@@ -359,18 +360,56 @@ class DeliveryNoteResource extends Resource
                     ->wrapHeader(),
             ])
             ->defaultSort('created_at', 'desc')
-            ->filters([
-                Tables\Filters\SelectFilter::make('status')
-                    ->options([
-                        'dikirim' => 'Dikirim',
-                        'sampai' => 'Sampai',
-                        'selesai' => 'Selesai',
-                    ]),
-            ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make()
-                    ->visible(fn(DeliveryNote $record) => $record->status !== 'selesai'),
+                Tables\Actions\Action::make('view')
+                    ->label('Lihat')
+                    ->button()
+                    ->color('secondary')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn(DeliveryNote $record) => route('filament.warehouse.resources.Penerimaan-Surat-Jalan.view', $record)),
+                Tables\Actions\Action::make('sampai')
+                    ->label('Sampai')
+                    ->visible(fn(DeliveryNote $record) => $record->status === 'dikirim')
+                    ->color('info')
+                    ->button()
+                    ->icon('heroicon-o-check-circle')
+                    ->requiresConfirmation()
+                    ->modalHeading('Konfirmasi Status Sampai')
+                    ->modalDescription('Apakah Anda yakin ingin mengubah status surat jalan ini menjadi "sampai"?')
+                    ->modalSubmitActionLabel('Ya, Ubah')
+                    ->action(function (DeliveryNote $record) {
+                        $record->update([
+                            'status' => 'sampai',
+                            'tanggal_sampai' => now(),
+                        ]);
+                        Notification::make()
+                            ->title('Status Diubah ke Sampai')
+                            ->body("Surat jalan nomor {$record->nomor_surat} telah ditandai sebagai sampai.")
+                            ->success()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('selesai')
+                    ->label('Selesai')
+                    ->visible(fn(DeliveryNote $record) => $record->status === 'sampai')
+                    ->color('success')
+                    ->button()
+                    ->icon('heroicon-o-flag')
+                    ->requiresConfirmation()
+                    ->modalHeading('Konfirmasi Status Selesai')
+                    ->modalDescription('Apakah Anda yakin ingin mengubah status surat jalan ini menjadi "selesai"?')
+                    ->modalSubmitActionLabel('Ya, Selesai')
+                    ->action(function (DeliveryNote $record) {
+                        $record->update([
+                            'status' => 'selesai',
+                            'tanggal_bongkar' => now(),
+                        ]);
+
+                        Notification::make()
+                            ->title('Status Diubah ke Selesai')
+                            ->body("Surat jalan nomor {$record->nomor_surat} telah ditandai sebagai selesai.")
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->emptyStateHeading('Belum ada surat jalan dikirim')
             ->emptyStateDescription('Tunggu petugas ruangan untuk mencetak surat jalan yang akan dikirimkan')
@@ -390,6 +429,7 @@ class DeliveryNoteResource extends Resource
         return [
             'index' => Pages\ListDeliveryNotes::route('/'),
             'edit' => Pages\EditDeliveryNote::route('/{record}/edit'),
+            'view' => Pages\ViewDeliveryNote::route('/{record}/view'),
         ];
     }
 }
