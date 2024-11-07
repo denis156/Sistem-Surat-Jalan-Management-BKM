@@ -106,6 +106,20 @@ class PrintDeliveryNote extends Page
 
     public function printDeliveryNote()
     {
+        // Cek apakah client dan warehouse officer sudah diisi
+        if (is_null($this->record->client_id) || is_null($this->record->warehouse_officer_id)) {
+            // Jika belum ada, tampilkan notifikasi untuk mengisi terlebih dahulu
+            Notification::make()
+                ->title('Data Tidak Lengkap')
+                ->body('Silakan lengkapi data klien dan petugas gudang sebelum mencetak surat jalan.')
+                ->danger()
+                ->persistent()
+                ->duration(3000)
+                ->send();
+
+            return; // Hentikan proses jika data belum lengkap
+        }
+
         // Ambil ID officer room yang sedang login
         $roomOfficerId = auth()->user()->officer->id ?? null;
 
