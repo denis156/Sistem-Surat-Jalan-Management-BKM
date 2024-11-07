@@ -62,8 +62,24 @@ class DeliveryNoteResource extends Resource
                                                 ->preload()
                                                 ->placeholder('Pilih klien')
                                                 ->required(),
+
+                                            Forms\Components\Select::make('warehouse_officer_id')
+                                                ->label('Petugas Gudang')
+                                                ->placeholder('Pilih petugas gudang')
+                                                ->relationship(
+                                                    'warehouseOfficer',
+                                                    'employee_id',
+                                                    fn(Builder $query) => $query
+                                                        ->where('type', 'warehouse')
+                                                        ->where('is_active', true)
+                                                        ->with('user')
+                                                )
+                                                ->getOptionLabelFromRecordUsing(fn($record) => "{$record->user->name} ({$record->employee_id})")
+                                                ->searchable()
+                                                ->preload()
+                                                ->required(),
                                         ])
-                                        ->columns(2),
+                                        ->columns(3),
                                 ]),
                         ]),
 
