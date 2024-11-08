@@ -32,7 +32,7 @@ class ClientPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->favicon(asset('images/logo.png'))
             ->brandName('Klient SJ-BKM')
-            ->sidebarWidth('14rem')
+            ->sidebarWidth('17rem')
             ->font('Comic Sans MS')
             ->colors([
                 'primary' => '#057A55',
