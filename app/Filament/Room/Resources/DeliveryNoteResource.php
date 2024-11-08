@@ -181,7 +181,7 @@ class DeliveryNoteResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->poll('60s')
+            ->poll('5s')
             ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('index')
@@ -396,7 +396,6 @@ class DeliveryNoteResource extends Resource
                                     : 'Cetak ulang surat jalan')
                                 : 'Sudah dicetak oleh ' . ($record->roomOfficer->user->name ?? 'Tidak Diketahui'))
                     ),
-
                 Tables\Actions\EditAction::make()
                     ->label('Edit')
                     ->button()
