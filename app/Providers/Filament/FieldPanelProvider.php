@@ -36,8 +36,8 @@ class FieldPanelProvider extends PanelProvider
             ->emailVerification()
             ->sidebarCollapsibleOnDesktop()
             ->favicon(asset('images/logo.png'))
-            ->brandName('Panel Lapangan SJ-BKM')
-            ->sidebarWidth('19rem')
+            ->brandName('Petugas Lapangan SJ-BKM')
+            ->sidebarWidth('21rem')
             ->font('Comic Sans MS')
             ->colors([
                 'primary' => '#057A55',
