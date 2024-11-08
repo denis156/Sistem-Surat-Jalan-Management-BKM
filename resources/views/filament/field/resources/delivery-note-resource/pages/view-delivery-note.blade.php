@@ -1,7 +1,6 @@
 <x-filament-panels::page>
-    <div
-        x-data="{
-            checkOrientation() {
+    <div x-data="{
+        checkOrientation() {
                 return window.innerHeight > window.innerWidth;
             },
             isPortrait: false,
@@ -11,29 +10,21 @@
                     this.isPortrait = this.checkOrientation();
                 });
             }
-        }"
-        x-init="init"
-    >
+    }" x-init="init">
         <!-- Modal Orientasi -->
-        <div
-            x-show="isPortrait"
-            x-transition:enter="transition ease-out duration-300"
+        <div x-show="isPortrait" x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 transform scale-90"
-            x-transition:enter-end="opacity-100 transform scale-100"
-            x-transition:leave="transition ease-in duration-300"
+            x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-300"
             x-transition:leave-start="opacity-100 transform scale-100"
             x-transition:leave-end="opacity-0 transform scale-90"
-            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-        >
-            <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl max-w-md mx-4 border border-gray-200 dark:border-gray-700">
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div
+                class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl max-w-md mx-4 border border-gray-200 dark:border-gray-700">
                 <div class="text-center space-y-6">
                     <!-- Animated GIF -->
                     <div class="relative mx-auto w-32 h-32 flex items-center justify-center mb-6">
-                        <img
-                            src="{{ asset('images/svg/rotate-phone.svg') }}"
-                            alt="Rotate Phone Animation"
-                            style="max-width: 100px; max-height: 100px;"
-                        >
+                        <img src="{{ asset('images/svg/rotate-phone.svg') }}" alt="Rotate Phone Animation"
+                            style="max-width: 100px; max-height: 100px;">
                     </div>
 
                     <!-- Title -->
@@ -44,7 +35,9 @@
                     <!-- Description -->
                     <div class="space-y-3">
                         <p class="text-gray-600 dark:text-gray-300">
-                            Untuk tampilan surat jalan yang optimal, silakan putar perangkat Anda ke mode <span class="font-semibold text-primary-600 dark:text-primary-400">landscape</span> (horizontal).
+                            Untuk tampilan surat jalan yang optimal, silakan putar perangkat Anda ke mode <span
+                                class="font-semibold text-primary-600 dark:text-primary-400">landscape</span>
+                            (horizontal).
                         </p>
                         <p class="text-sm text-gray-500 dark:text-gray-400">
                             Tip: Aktifkan rotasi otomatis pada perangkat Anda untuk pengalaman terbaik.
@@ -61,7 +54,8 @@
                 <header class="flex justify-between items-center mb-4 relative">
                     <div class="flex items-center space-x-4">
                         <div class="company-logo">
-                            <img src="{{ asset('images/logo.png') }}" alt="Logo Perusahaan" style="width: 50px; height: 50px;">
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo Perusahaan"
+                                style="width: 50px; height: 50px;">
                         </div>
                         <div class="company-info text-xs dark:text-white">
                             <h2 class="text-base font-bold">PT. BARAKKA KARYA MANDIRI</h2>
@@ -79,14 +73,16 @@
                     <tr>
                         <td class="w-1/2 p-4 align-top bg-white dark:bg-gray-800 text-black dark:text-white">
                             <div class="flex flex-col space-y-4">
-                                <div class="border border-black dark:border-gray-300 p-2 h-[50px] flex justify-between items-center custom-header">
+                                <div
+                                    class="border border-black dark:border-gray-300 p-2 h-[50px] flex justify-between items-center custom-header">
                                     <p class="font-bold">Kepada:</p>
                                     <p>
                                         {{ $record->client->user->name ?? 'Tidak ada nama' }} -
                                         {{ $record->client->company_name ?? 'Tidak ada nama perusahaan' }}
                                     </p>
                                 </div>
-                                <div class="border border-black dark:border-gray-300 p-2 h-[50px] flex justify-between items-center custom-header">
+                                <div
+                                    class="border border-black dark:border-gray-300 p-2 h-[50px] flex justify-between items-center custom-header">
                                     <p class="font-bold">Gudang Tujuan:</p>
                                     <p>{{ $record->ship_to ?? 'Belum ada tujuan' }}</p>
                                 </div>
@@ -95,25 +91,32 @@
                         <td class="w-1/2 p-4 align-top bg-white dark:bg-gray-800 text-black dark:text-white">
                             <div class="flex flex-col space-y-4">
                                 <div class="flex space-x-4">
-                                    <div class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
+                                    <div
+                                        class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
                                         <p class="font-bold w-1/3 text-right mr-2">Tanggal Kirim:</p>
                                         <p class="w-2/3 text-left">
                                             {{ $record->tanggal_pengiriman ? $record->tanggal_pengiriman->format('d M Y') : 'Belum ada tanggal kirim' }}
                                         </p>
                                     </div>
-                                    <div class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
+                                    <div
+                                        class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
                                         <p class="font-bold w-1/3 text-right mr-2">No. Surat:</p>
-                                        <p class="w-2/3 text-left">{{ $record->nomor_surat ?? 'Belum ada nomor surat' }}</p>
+                                        <p class="w-2/3 text-left">{{ $record->nomor_surat ?? 'Belum ada nomor surat' }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="flex space-x-4">
-                                    <div class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
+                                    <div
+                                        class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
                                         <p class="font-bold w-1/3 text-right mr-2">No. Plat:</p>
-                                        <p class="w-2/3 text-left">{{ $record->nomor_plat ?? 'Belum ada nomor plat' }}</p>
+                                        <p class="w-2/3 text-left">{{ $record->nomor_plat ?? 'Belum ada nomor plat' }}
+                                        </p>
                                     </div>
-                                    <div class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
+                                    <div
+                                        class="border border-black dark:border-gray-300 p-2 h-[50px] w-1/2 custom-header flex items-center">
                                         <p class="font-bold w-1/3 text-right mr-2">Supir:</p>
-                                        <p class="w-2/3 text-left">{{ $record->nama_driver ?? 'Belum ada nama supir' }}</p>
+                                        <p class="w-2/3 text-left">{{ $record->nama_driver ?? 'Belum ada nama supir' }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -122,22 +125,31 @@
                 </table>
 
                 <!-- Tabel Item -->
-                <table class="w-full border-collapse border border-black dark:border-gray-300 text-xs mb-6 custom-table dark:text-white">
+                <table
+                    class="w-full border-collapse border border-black dark:border-gray-300 text-xs mb-6 custom-table dark:text-white">
                     <thead>
                         <tr>
-                            <th class="border border-black dark:border-gray-300 p-2 w-1/12 bg-white dark:bg-gray-800">NO.</th>
-                            <th class="border border-black dark:border-gray-300 p-2 w-5/12 bg-white dark:bg-gray-800">DESKRIPSI BARANG</th>
-                            <th class="border border-black dark:border-gray-300 p-2 w-2/12 bg-white dark:bg-gray-800">QTY</th>
-                            <th class="border border-black dark:border-gray-300 p-2 w-3/12 bg-white dark:bg-gray-800">Kondisi</th>
+                            <th class="border border-black dark:border-gray-300 p-2 w-1/12 bg-white dark:bg-gray-800">
+                                NO.</th>
+                            <th class="border border-black dark:border-gray-300 p-2 w-5/12 bg-white dark:bg-gray-800">
+                                DESKRIPSI BARANG</th>
+                            <th class="border border-black dark:border-gray-300 p-2 w-2/12 bg-white dark:bg-gray-800">
+                                QTY</th>
+                            <th class="border border-black dark:border-gray-300 p-2 w-3/12 bg-white dark:bg-gray-800">
+                                Kondisi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-gray-800">
                         @foreach ($record->items as $index => $item)
                             <tr>
-                                <td class="border border-black dark:border-gray-300 p-2 text-center">{{ $index + 1 }}</td>
-                                <td class="border border-black dark:border-gray-300 p-2">{{ $item->name_item ?? 'Tidak ada data' }}</td>
-                                <td class="border border-black dark:border-gray-300 p-2 text-center">{{ $item->quantity ?? 'Tidak ada data' }}</td>
-                                <td class="border border-black dark:border-gray-300 p-2">{{ $item->description ?? 'Tidak ada data' }}</td>
+                                <td class="border border-black dark:border-gray-300 p-2 text-center">{{ $index + 1 }}
+                                </td>
+                                <td class="border border-black dark:border-gray-300 p-2">
+                                    {{ $item->name_item ?? 'Tidak ada data' }}</td>
+                                <td class="border border-black dark:border-gray-300 p-2 text-center">
+                                    {{ $item->quantity ?? 'Tidak ada data' }}</td>
+                                <td class="border border-black dark:border-gray-300 p-2">
+                                    {{ $item->description ?? 'Tidak ada data' }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -163,7 +175,7 @@
                     <div class="custom-signature text-center mb-8">
                         <p>Penerima</p>
                         <div class="mt-8 border-t border-black dark:border-gray-300"></div>
-                        <p>{{ $record->roomOfficer->user->name ?? 'Belum ada petugas gudang' }}</p>
+                        <p>{{ $record->WarehouseOfficer->user->name ?? 'Belum ada petugas gudang' }}</p>
                     </div>
                 </div>
             </x-filament::card>
