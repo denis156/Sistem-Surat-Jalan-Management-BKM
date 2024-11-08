@@ -32,4 +32,9 @@ class EditDeliveryNote extends EditRecord
                 ->icon('heroicon-o-arrow-path'),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('print', ['record' => $this->record->getKey()]);
+    }
 }
