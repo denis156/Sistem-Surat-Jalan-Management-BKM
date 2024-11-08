@@ -36,8 +36,8 @@ class RoomPanelProvider extends PanelProvider
             ->emailVerification()
             ->sidebarCollapsibleOnDesktop()
             ->favicon(asset('images/logo.png'))
-            ->brandName('Panel Ruangan SJ-BKM')
-            ->sidebarWidth('19rem')
+            ->brandName('Petugas Ruangan SJ-BKM')
+            ->sidebarWidth('20rem')
             ->font('Comic Sans MS')
             ->colors([
                 'primary' => '#057A55',
