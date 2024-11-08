@@ -61,6 +61,6 @@ class EditDeliveryNote extends EditRecord
 
     protected function getRedirectUrl(): string
     {
-        return $this->getResource()::getUrl('print', ['record' => $this->record->getKey()]);
+        return $this->getResource()::getUrl('view', ['record' => $this->record->getKey()]);
     }
 }
