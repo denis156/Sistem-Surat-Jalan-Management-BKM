@@ -1,0 +1,88 @@
+Mengerti, berikut adalah rekomendasi yang lebih spesifik untuk widget di setiap dashboard dengan jenis tabel dan infobox yang sesuai, seperti tabel "5 Surat Jalan Terbaru" atau infobox untuk status tertentu. 
+
+### 1. **Admin Dashboard**
+   - **Infobox Status Summary**:
+     - **Infobox**: Menampilkan jumlah surat jalan di setiap status.
+     - **Contoh**: Empat infobox untuk status "dibuat", "dikirim", "sampai", dan "selesai". Setiap infobox menampilkan angka total surat jalan di setiap status tersebut.
+
+   - **Tabel "5 Surat Jalan Terbaru"**:
+     - **Table**: Daftar 5 surat jalan terbaru dengan kolom "Nomor Surat", "Klien", "Status", dan "Tanggal Pengiriman".
+     - **Contoh**: Menampilkan surat jalan yang baru dibuat atau dikirim dalam 5 entri terbaru, sehingga admin bisa memantau perubahan terbaru dengan cepat.
+
+   - **Chart "Distribusi Status Surat Jalan"**:
+     - **Donut Chart**: Mengilustrasikan persentase dari setiap status surat jalan.
+     - **Contoh**: Chart yang membagi persentase surat jalan di setiap status, memberi admin gambaran visual dari distribusi status.
+
+   - **Chart "Pengiriman per Bulan"**:
+     - **Bar Chart**: Menampilkan jumlah surat jalan yang dikirim setiap bulan.
+     - **Contoh**: Bar chart dengan sumbu x (bulan) dan sumbu y (jumlah surat jalan), untuk memantau tren pengiriman per bulan.
+
+   - **Tombol Laporan Surat Jalan**:
+     - **Button**: Tombol untuk mengunduh laporan surat jalan dalam format Excel atau PDF.
+     - **Contoh**: Tombol "Unduh Laporan" yang membuka modal untuk memilih format laporan yang diinginkan.
+
+### 2. **Field Officer Dashboard**
+   - **Infobox Jumlah Surat Jalan Ditugaskan**:
+     - **Infobox**: Menampilkan jumlah surat jalan yang sedang aktif (misalnya, "dikirim" atau "sampai").
+     - **Contoh**: Infobox ini berfungsi sebagai ringkasan tugas Field Officer.
+
+   - **Tabel "5 Surat Jalan Terbaru Ditugaskan"**:
+     - **Table**: Daftar 5 surat jalan terbaru yang ditugaskan, dengan kolom "Nomor Surat", "Status", "Tanggal Pengiriman".
+     - **Contoh**: Field Officer dapat langsung melihat surat jalan terbaru yang memerlukan tindak lanjut.
+
+   - **Chart "Progress Surat Jalan"**:
+     - **Horizontal Bar Chart**: Menunjukkan jumlah surat jalan di setiap status (dikirim, sampai, selesai).
+     - **Contoh**: Chart horizontal yang menampilkan batang untuk setiap status, membantu Field Officer melihat progress surat jalan.
+
+   - **Alert Box untuk Keterlambatan**:
+     - **Info Box**: Menampilkan surat jalan yang sudah melewati estimasi tanggal sampai.
+     - **Contoh**: Info box ini memberi peringatan untuk pengiriman yang mungkin tertunda atau butuh perhatian khusus.
+
+### 3. **Room Officer Dashboard**
+   - **Infobox "Jumlah Surat Jalan Dibuat"**:
+     - **Infobox**: Menampilkan jumlah surat jalan dengan status "dibuat".
+     - **Contoh**: Infobox ini memudahkan Room Officer mengetahui berapa banyak surat jalan yang siap diproses.
+
+   - **Tabel "5 Surat Jalan Siap Dikirim"**:
+     - **Table**: Daftar 5 surat jalan dengan status "dibuat", dengan kolom "Nomor Surat", "Klien", "Tujuan", dan "Petugas Gudang".
+     - **Contoh**: Room Officer dapat memilih surat jalan dari tabel ini untuk mengatur pengiriman atau mencetak.
+
+   - **Chart "Distribusi Status Surat Jalan"**:
+     - **Donut Chart**: Persentase dari surat jalan yang sedang dalam status "dibuat" dan "dikirim".
+     - **Contoh**: Chart yang membagi status menjadi dua bagian untuk menunjukkan proporsi surat jalan yang siap dikirim atau sedang dalam proses.
+
+   - **Tombol "Buat Surat Jalan Baru"**:
+     - **Quick Action Button**: Tombol yang langsung mengarahkan ke form pembuatan surat jalan baru.
+     - **Contoh**: Tombol "Buat Surat Jalan" yang memungkinkan Room Officer memulai pembuatan surat jalan dengan cepat.
+
+### 4. **Warehouse Officer Dashboard**
+   - **Infobox "Jumlah Surat Jalan Siap Diproses"**:
+     - **Infobox**: Menampilkan jumlah surat jalan yang berstatus "dikirim" atau "sampai".
+     - **Contoh**: Infobox ini memberi gambaran cepat mengenai jumlah surat jalan yang perlu diproses di gudang.
+
+   - **Tabel "5 Surat Jalan Menunggu Tindakan"**:
+     - **Table**: Menampilkan surat jalan dengan status "dikirim" atau "sampai", dengan kolom "Nomor Surat", "Klien", "Jumlah Item", dan "Status".
+     - **Contoh**: Warehouse Officer bisa langsung mengakses surat jalan yang memerlukan pengeditan item di tabel ini.
+
+   - **Log Aktivitas Terbaru**:
+     - **Activity Feed**: Menampilkan perubahan terbaru pada surat jalan, seperti pengeditan item atau perubahan status.
+     - **Contoh**: Activity feed untuk memantau perubahan surat jalan di gudang, memberi Warehouse Officer riwayat aktivitas terbaru.
+
+### 5. **Client Dashboard**
+   - **Infobox "Jumlah Surat Jalan Selesai"**:
+     - **Infobox**: Menampilkan total surat jalan dengan status "selesai" yang terkait dengan klien.
+     - **Contoh**: Infobox ini membantu klien melihat jumlah pengiriman yang sudah selesai.
+
+   - **Tabel "5 Surat Jalan Terbaru"**:
+     - **Table**: Daftar 5 surat jalan terbaru dengan kolom "Nomor Surat", "Status", "Tanggal Pengiriman", dan "Nama Driver".
+     - **Contoh**: Klien dapat mengakses surat jalan terbaru tanpa hak untuk mencetak atau mengedit.
+
+   - **Chart "Ringkasan Status Surat Jalan"**:
+     - **Bar Chart**: Menampilkan jumlah surat jalan di setiap status yang terkait dengan klien.
+     - **Contoh**: Bar chart dengan bar untuk setiap status, memungkinkan klien melihat distribusi status surat jalan mereka.
+
+   - **Tombol "Cetak Laporan Surat Jalan"**:
+     - **Button**: Tombol untuk mengunduh laporan surat jalan dalam format PDF.
+     - **Contoh**: Tombol "Unduh Laporan PDF" yang membuka modal untuk memilih rentang waktu dan memfilter surat jalan yang ingin diunduh.
+
+Dengan widget ini, tiap peran memiliki dashboard yang mudah dibaca dan informatif, membantu mereka melihat data penting seperti status surat jalan terbaru, jumlah yang selesai, dan akses cepat untuk tindakan yang diperlukan.

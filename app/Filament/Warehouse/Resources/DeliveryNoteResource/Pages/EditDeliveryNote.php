@@ -47,4 +47,9 @@ class EditDeliveryNote extends EditRecord
             $this->redirectRoute('filament.warehouse.resources.Penerimaan-Surat-Jalan.index');
         }
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->record->getKey()]);
+    }
 }

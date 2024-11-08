@@ -283,6 +283,15 @@ class ClientResource extends Resource
                     ->color('primary')
                     ->label('Tindakan')
                     ->size(ActionSize::Medium),
+            ])
+            ->emptyStateHeading('Belum ada klien')
+            ->emptyStateDescription('Buat klien baru dengan klik tombol buat di Bawah ini')
+            ->emptyStateIcon('heroicon-o-building-office-2')
+            ->striped()
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make()
+                    ->label('Buat Klien')
+                    ->icon('heroicon-o-plus'),
             ]);
     }
 
