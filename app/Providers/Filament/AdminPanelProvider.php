@@ -41,8 +41,8 @@ class AdminPanelProvider extends PanelProvider
             ->emailVerification()
             ->sidebarCollapsibleOnDesktop()
             ->favicon(asset('images/logo.png'))
-            ->brandName('Panel Admin SJ-BKM')
-            ->sidebarWidth('18rem')
+            ->brandName('Admin SJ-BKM')
+            ->sidebarWidth('17rem')
             ->font('Comic Sans MS')
             ->colors([
                 'primary' => '#057A55',
