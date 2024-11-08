@@ -58,4 +58,9 @@ class EditDeliveryNote extends EditRecord
             $this->redirectRoute('filament.field.resources.Surat-Jalan.index');
         }
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('print', ['record' => $this->record->getKey()]);
+    }
 }
