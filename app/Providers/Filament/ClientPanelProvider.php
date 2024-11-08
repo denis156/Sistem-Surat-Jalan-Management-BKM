@@ -29,12 +29,13 @@ class ClientPanelProvider extends PanelProvider
             ->registration()
             ->passwordReset()
             ->emailVerification()
+            ->sidebarCollapsibleOnDesktop()
             ->favicon(asset('images/logo.png'))
-            ->brandLogo(asset('images/sidebar.png'))
-            ->brandLogoHeight('49px')
+            ->brandName('Klient SJ-BKM')
+            ->sidebarWidth('14rem')
             ->font('Comic Sans MS')
             ->colors([
-                'primary' => '#005028',
+                'primary' => '#057A55',
                 'danger' => Color::Rose,
                 'secondary' => Color::Gray,
                 'info' => Color::Blue,

@@ -34,12 +34,13 @@ class WarehousePanelProvider extends PanelProvider
             ->registration()
             ->passwordReset()
             ->emailVerification()
+            ->sidebarCollapsibleOnDesktop()
             ->favicon(asset('images/logo.png'))
-            ->brandLogo(asset('images/sidebar.png'))
-            ->brandLogoHeight('49px')
+            ->brandName('Panel Gudang SJ-BKM')
+            ->sidebarWidth('19rem')
             ->font('Comic Sans MS')
             ->colors([
-                'primary' => '#005028',
+                'primary' => '#057A55',
                 'danger' => Color::Rose,
                 'secondary' => Color::Gray,
                 'info' => Color::Blue,
