@@ -359,7 +359,6 @@ class DeliveryNoteResource extends Resource
                     ->alignment(Alignment::Center)
                     ->wrapHeader(),
             ])
-            ->defaultSort('created_at', 'desc')
             ->actions([
                 Tables\Actions\Action::make('view')
                     ->label('Lihat')
